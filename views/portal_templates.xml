@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Entries on the portal home page -->
+    <template id="portal_my_home_hr" name="Portal home: time off and attendance"
+              inherit_id="portal.portal_my_home" customize_show="True" priority="30">
+        <xpath expr="//div[@id='portal_common_category']" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/web/static/img/rfq.svg'"/>
+                <t t-set="title">My Time Off</t>
+                <t t-set="text">Follow your time off requests and their approvals</t>
+                <t t-set="url" t-value="'/my/leaves'"/>
+                <t t-set="placeholder_count" t-value="'hlap_leave_count'"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/web/static/img/rfq.svg'"/>
+                <t t-set="title">My Attendance</t>
+                <t t-set="text">Check-ins, late arrivals and overtime</t>
+                <t t-set="url" t-value="'/my/attendance'"/>
+                <t t-set="placeholder_count" t-value="'hlap_attendance_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_leaves" name="My Time Off">
+        <t t-call="portal.portal_layout">
+            <h3 class="mb-3">My Time Off</h3>
+            <t t-if="not leaves">
+                <p class="alert alert-warning">You have no time off request yet.</p>
+            </t>
+            <t t-if="leaves" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Type</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th class="text-end">Days</th>
+                        <th>Status</th>
+                        <th>Waiting for</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="leaves" t-as="leave">
+                        <td><span t-field="leave.holiday_status_id.name"/></td>
+                        <td><span t-field="leave.date_from" t-options="{'widget': 'date'}"/></td>
+                        <td><span t-field="leave.date_to" t-options="{'widget': 'date'}"/></td>
+                        <td class="text-end"><span t-field="leave.number_of_days"/></td>
+                        <td>
+                            <span t-if="leave.state == 'validate'" class="badge rounded-pill text-bg-success">Approved</span>
+                            <span t-elif="leave.state in ('refuse', 'cancel')" class="badge rounded-pill text-bg-danger"><t t-out="dict(leave._fields['state'].selection)[leave.state]"/></span>
+                            <span t-else="" class="badge rounded-pill text-bg-warning">To Approve</span>
+                        </td>
+                        <td><span t-field="leave.approval_stage"/></td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_attendance" name="My Attendance">
+        <t t-call="portal.portal_layout">
+            <h3 class="mb-3">My Attendance</h3>
+            <t t-if="not attendances">
+                <p class="alert alert-warning">No attendance recorded yet.</p>
+            </t>
+            <t t-if="attendances" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th class="text-end">Worked (h)</th>
+                        <th class="text-end">Late (min)</th>
+                        <th class="text-end">Overtime (h)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="attendances" t-as="attendance">
+                        <td><span t-field="attendance.check_in"/></td>
+                        <td><span t-field="attendance.check_out"/></td>
+                        <td class="text-end"><span t-field="attendance.worked_hours" t-options="{'widget': 'float_time'}"/></td>
+                        <td class="text-end">
+                            <span t-if="attendance.is_late" class="text-danger" t-out="attendance.late_minutes"/>
+                            <span t-else="">-</span>
+                        </td>
+                        <td class="text-end"><span t-field="attendance.validated_overtime_hours" t-options="{'widget': 'float_time'}"/></td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_attendance_sheet" model="report.paperformat">
+        <field name="name">Attendance Sheet (A4 Landscape)</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">30</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_attendance_sheet" model="ir.actions.report">
+        <field name="name">Monthly Attendance Sheet</field>
+        <field name="model">hr.attendance.sheet</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_leave_attendance_plus.report_attendance_sheet</field>
+        <field name="report_file">hr_leave_attendance_plus.report_attendance_sheet</field>
+        <field name="print_report_name">'Attendance Sheet - %s' % object.name</field>
+        <field name="paperformat_id" ref="paperformat_attendance_sheet"/>
+        <field name="binding_model_id" ref="model_hr_attendance_sheet"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_attendance_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Attendance &amp; Deduction Sheet: <span t-field="o.name"/></h2>
+                        <p>
+                            Period: <span t-field="o.date_from"/> - <span t-field="o.date_to"/>
+                            | Status: <span t-field="o.state"/>
+                        </p>
+                        <table class="table table-sm table-bordered" style="font-size: 11px;">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th class="text-end">Working</th>
+                                    <th class="text-end">Present</th>
+                                    <th class="text-end">Time Off</th>
+                                    <th class="text-end">Absent</th>
+                                    <th class="text-end">Late</th>
+                                    <th class="text-end">Late Penalty (d)</th>
+                                    <th class="text-end">OT (h)</th>
+                                    <th class="text-end">Gross</th>
+                                    <th class="text-end">Deduction</th>
+                                    <th class="text-end">OT Pay</th>
+                                    <th class="text-end">Net</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids" t-as="line">
+                                    <td><span t-field="line.employee_id"/></td>
+                                    <td class="text-end"><span t-field="line.scheduled_days"/></td>
+                                    <td class="text-end"><span t-field="line.present_days"/></td>
+                                    <td class="text-end"><span t-field="line.leave_days"/></td>
+                                    <td class="text-end"><span t-field="line.absent_days"/></td>
+                                    <td class="text-end"><span t-field="line.late_count"/></td>
+                                    <td class="text-end"><span t-field="line.late_deduction_days"/></td>
+                                    <td class="text-end"><span t-field="line.ot_hours"/></td>
+                                    <td class="text-end"><span t-field="line.monthly_gross"/></td>
+                                    <td class="text-end"><span t-field="line.deduction_amount"/></td>
+                                    <td class="text-end"><span t-field="line.ot_amount"/></td>
+                                    <td class="text-end"><span t-field="line.net_adjustment"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="9">Total</td>
+                                    <td class="text-end"><span t-field="o.total_deduction_amount"/></td>
+                                    <td class="text-end"><span t-field="o.total_ot_amount"/></td>
+                                    <td class="text-end"><span t-field="o.total_net_adjustment"/></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

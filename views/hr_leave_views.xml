@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_leave_view_form_plus" model="ir.ui.view">
+        <field name="name">hr.leave.form.plus</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Standard Approve/Validate buttons are replaced by the approval chain button -->
+            <xpath expr="(//header/button[@name='action_approve'])[1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="(//header/button[@name='action_approve'])[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='action_back_to_approval']" position="before">
+                <field name="can_chain_approve" invisible="1"/>
+                <button string="Approve" name="action_approve" type="object" class="oe_highlight"
+                        invisible="not can_chain_approve or not id"/>
+                <button string="Refuse" name="action_chain_refuse" type="object"
+                        invisible="not can_chain_approve or can_refuse or not id"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group name="approval_chain" string="Approval Chain"
+                       invisible="not id or state in ['refuse', 'cancel']">
+                    <group>
+                        <field name="required_level"/>
+                        <field name="approval_stage" widget="badge"
+                               decoration-warning="approval_stage"
+                               invisible="not approval_stage"/>
+                    </group>
+                    <group>
+                        <label for="manager_approver_id"/>
+                        <div class="o_row">
+                            <field name="manager_approver_id" readonly="1"/>
+                            <field name="manager_approval_date" readonly="1" invisible="not manager_approver_id"/>
+                        </div>
+                        <label for="hr_approver_id" invisible="required_level == '1'"/>
+                        <div class="o_row" invisible="required_level == '1'">
+                            <field name="hr_approver_id" readonly="1"/>
+                            <field name="hr_approval_date" readonly="1" invisible="not hr_approver_id"/>
+                        </div>
+                        <label for="md_approver_id" invisible="required_level != '3'"/>
+                        <div class="o_row" invisible="required_level != '3'">
+                            <field name="md_approver_id" readonly="1"/>
+                            <field name="md_approval_date" readonly="1" invisible="not md_approver_id"/>
+                        </div>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_leave_view_tree_plus" model="ir.ui.view">
+        <field name="name">hr.leave.list.plus</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="approval_stage" widget="badge" optional="show"
+                       decoration-warning="approval_stage"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

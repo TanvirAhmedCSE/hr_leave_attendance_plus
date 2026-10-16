@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_groups_privilege_leave_plus" model="res.groups.privilege">
+        <field name="name">Leave &amp; Attendance Plus</field>
+        <field name="sequence">30</field>
+        <field name="category_id" ref="base.module_category_human_resources"/>
+    </record>
+
+    <!-- The MD is also a Time Off Officer, so the standard validation checks pass for him. -->
+    <record id="group_leave_md" model="res.groups">
+        <field name="name">Managing Director: final time off approval</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="res_groups_privilege_leave_plus"/>
+        <field name="implied_ids" eval="[(4, ref('hr_holidays.group_hr_holidays_user'))]"/>
+        <field name="comment">Approves the long time off requests (last level of the approval chain).</field>
+    </record>
+
+    <!-- Multi-company rules -->
+    <record id="rule_attendance_rule_company" model="ir.rule">
+        <field name="name">Leave &amp; Attendance Rules: multi-company</field>
+        <field name="model_id" ref="model_hr_attendance_rule"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_attendance_sheet_company" model="ir.rule">
+        <field name="name">Attendance Sheet: multi-company</field>
+        <field name="model_id" ref="model_hr_attendance_sheet"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_attendance_sheet_line_company" model="ir.rule">
+        <field name="name">Attendance Sheet Line: multi-company</field>
+        <field name="model_id" ref="model_hr_attendance_sheet_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

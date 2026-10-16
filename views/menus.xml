@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_attendance_late"
+              name="Late Arrivals"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="hr_attendance_action_late"
+              sequence="20"
+              groups="hr_attendance.group_hr_attendance_officer"/>
+
+    <menuitem id="menu_attendance_sheet"
+              name="Monthly Sheets"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="hr_attendance_sheet_action"
+              sequence="30"
+              groups="hr.group_hr_user"/>
+
+    <menuitem id="menu_attendance_rules"
+              name="Leave &amp; Attendance Rules"
+              parent="hr_attendance.menu_hr_attendance_configuration"
+              action="hr_attendance_rule_action"
+              sequence="50"
+              groups="hr.group_hr_manager"/>
+
+</odoo>

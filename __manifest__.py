@@ -1,3 +1,5 @@
+# Part of this module. See LICENSE file for full copyright and licensing details.
+
 {
     'name': 'HR Leave, Attendance & Overtime Plus',
     'version': '19.0.1.0.0',
@@ -34,6 +36,11 @@ Extends hr_holidays and hr_attendance with features that Odoo Community does not
         'views/menus.xml',
         'data/ir_cron_data.xml',
     ],
+    'assets': {
+        'web.report_assets_common': [
+            'hr_leave_attendance_plus/static/src/css/report_fonts.css',
+        ],
+    },
     'application': False,
     'installable': True,
 }

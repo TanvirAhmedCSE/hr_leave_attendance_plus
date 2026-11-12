@@ -237,7 +237,7 @@ The suite (`post_install`) covers:
 ```
 hr_leave_attendance_plus/
 ├── __init__.py
-├── __manifest__.py
+├── __manifest__.py                     
 ├── controllers/
 │   └── portal.py                       # /my/leaves, /my/attendance
 ├── data/
@@ -250,10 +250,17 @@ hr_leave_attendance_plus/
 │   ├── hr_leave.py                     # Approval chain
 │   └── hr_attendance_sheet.py          # Sheet, lines, figures, cron
 ├── report/
-│   └── hr_attendance_sheet_report.xml  # Paper format, action, QWeb template
+│   └── hr_attendance_sheet_report.xml  
 ├── security/
 │   ├── hr_leave_attendance_plus_security.xml  # MD group, record rules
 │   └── ir.model.access.csv
+├── static/
+│   └── src/
+│       ├── css/
+│       │   └── report_fonts.css           
+│       └── fonts/
+│           ├── NotoSansBengali-Regular.ttf     
+│           └── NotoSansBengali-Bold.ttf        
 ├── views/
 │   ├── hr_attendance_rule_views.xml
 │   ├── hr_leave_views.xml

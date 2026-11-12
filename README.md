@@ -307,7 +307,7 @@ erDiagram
 
 <img src="module screenshots/6.png" width="700"/>
 
-<img src="module screenshots/7.png" width="700"/>
+<img src="module screenshots/07.png" width="700"/>
 
 <img src="module screenshots/8.png" width="700"/>
 

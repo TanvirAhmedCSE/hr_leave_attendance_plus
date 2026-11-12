@@ -31,6 +31,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page">
+                        <t t-set="cur" t-value="o.env.company.currency_id"/>
                         <h2>Attendance &amp; Deduction Sheet: <span t-field="o.name"/></h2>
                         <p>
                             Period: <span t-field="o.date_from"/> - <span t-field="o.date_to"/>
@@ -63,18 +64,18 @@
                                     <td class="text-end"><span t-field="line.late_count"/></td>
                                     <td class="text-end"><span t-field="line.late_deduction_days"/></td>
                                     <td class="text-end"><span t-field="line.ot_hours"/></td>
-                                    <td class="text-end"><span t-field="line.monthly_gross"/></td>
-                                    <td class="text-end"><span t-field="line.deduction_amount"/></td>
-                                    <td class="text-end"><span t-field="line.ot_amount"/></td>
-                                    <td class="text-end"><span t-field="line.net_adjustment"/></td>
+                                    <td class="text-end"><span t-field="line.monthly_gross" t-options="{'widget': 'monetary', 'display_currency': cur}"/></td>
+                                    <td class="text-end"><span t-field="line.deduction_amount" t-options="{'widget': 'monetary', 'display_currency': cur}"/></td>
+                                    <td class="text-end"><span t-field="line.ot_amount" t-options="{'widget': 'monetary', 'display_currency': cur}"/></td>
+                                    <td class="text-end"><span t-field="line.net_adjustment" t-options="{'widget': 'monetary', 'display_currency': cur}"/></td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr class="fw-bold">
                                     <td colspan="9">Total</td>
-                                    <td class="text-end"><span t-field="o.total_deduction_amount"/></td>
-                                    <td class="text-end"><span t-field="o.total_ot_amount"/></td>
-                                    <td class="text-end"><span t-field="o.total_net_adjustment"/></td>
+                                    <td class="text-end"><span t-field="o.total_deduction_amount" t-options="{'widget': 'monetary', 'display_currency': cur}"/></td>
+                                    <td class="text-end"><span t-field="o.total_ot_amount" t-options="{'widget': 'monetary', 'display_currency': cur}"/></td>
+                                    <td class="text-end"><span t-field="o.total_net_adjustment" t-options="{'widget': 'monetary', 'display_currency': cur}"/></td>
                                 </tr>
                             </tfoot>
                         </table>

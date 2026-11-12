@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'NotoSansBengali';
+    src: url('../fonts/NotoSansBengali-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'NotoSansBengali';
+    src: url('../fonts/NotoSansBengali-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+.page,
+.page * {
+    font-family: 'NotoSansBengali', 'Lato', sans-serif;
+}
